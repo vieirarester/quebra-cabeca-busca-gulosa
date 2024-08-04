@@ -22,31 +22,33 @@ class Tabuleiro:
 
         return self.tab == tabuleiro_objetivo
     
-    def mover(self, peca):
-
-        # encontra a posição da peça a ser movido
-        for i in range(3):
-            for j in range(3):
-                if self.tab[i][j] == peca:
-                    linha_peca, coluna_peca = i, j
-                    break
-        
+    def verificar_movimentos_possiveis(self):
+        movimentos = []
         # encontra a posição do espaço vazio
         for i in range(3):
             for j in range(3):
                 if self.tab[i][j] == " ":
                     linha_vazio, coluna_vazio = i, j
-                    break
+    
+        # verifica movimentos possíveis
+        if linha_vazio > 0: movimentos.append((linha_vazio - 1, coluna_vazio))  # movimento para cima
+        if linha_vazio < 2: movimentos.append((linha_vazio + 1, coluna_vazio))  # movimento para baixo
+        if coluna_vazio > 0: movimentos.append((linha_vazio, coluna_vazio - 1))  # movimento para a esquerda
+        if coluna_vazio < 2: movimentos.append((linha_vazio, coluna_vazio + 1))  # movimento para a direita
+    
+        return movimentos
+    
+    def mover(self, movimento):
+        
+        linha_peca, coluna_peca = movimento
+        linha_vazio, coluna_vazio = next(
+            (i, j) for i in range(3) for j in range(3) if self.tab[i][j] == " ")
 
-        # troca as posições
-        if abs(linha_peca - linha_vazio) + abs(coluna_peca - coluna_vazio) == 1:
+        if movimento in self.verificar_movimentos_possiveis():
+
             self.tab[linha_vazio][coluna_vazio], self.tab[linha_peca][coluna_peca] = \
                 self.tab[linha_peca][coluna_peca], self.tab[linha_vazio][coluna_vazio]
-
             
-tabuleiro = Tabuleiro()
-print('tabuleiro original: ')
-tabuleiro.exibir_tabuleiro()
-print('tabuleiro com peça movida: ')
-tabuleiro.mover(8)
-tabuleiro.exibir_tabuleiro()
+            return self  # Retorna um novo estado do tabuleiro
+
+        return None
