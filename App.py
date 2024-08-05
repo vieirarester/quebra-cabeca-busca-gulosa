@@ -14,13 +14,14 @@ class App:
             self.tabuleiro.exibir_tabuleiro()
             resultado = self.busca.buscar(self.tabuleiro)
             
+            # se houver resultado, ou seja, o tabuleiro objetivo foi encontrado o loop é encerrado
             if resultado:
                 break
             else:
                 print("Gerando novo tabuleiro aleatório...")
                 self.tabuleiro = Tabuleiro()
                 self.busca = BuscaGulosa()
-                time.sleep(2)  # delay de 2 segundos antes de tentar novamente        
+                time.sleep(2)  # delay de 2 segundos antes de executar a busca novamente       
 
 
 app = App()

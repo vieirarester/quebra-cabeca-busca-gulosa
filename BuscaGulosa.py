@@ -4,18 +4,24 @@ from Tabuleiro import Tabuleiro
 class BuscaGulosa:
 
     def __init__(self):
+        # construtor que inicializa um conjunto para armazenar tabuleiros já jogados
         self.visitados = set()
 
+    # escolhe o melhor movimento baseado no menor custo se é um novo movimento
     def escolher_melhor_movimento(self, tabuleiro):
         if not tabuleiro.movimentos_possiveis:
             return 
         
         melhor_tabuleiro = tabuleiro.movimentos_possiveis[0]
-        menor_custo = float('inf')
+        menor_custo = float('inf') # mais infinito
 
         for tabuleiro_possivel in tabuleiro.movimentos_possiveis:
             if tabuleiro_possivel.estado_unico() not in self.visitados:
+
+                # calcula o custo se o tabuleiro não foi jogado
                 custo = tabuleiro_possivel.get_custo()
+
+                # considera o menor custo
                 if custo < menor_custo:
                     menor_custo = custo
                     melhor_tabuleiro = tabuleiro_possivel
@@ -40,18 +46,20 @@ class BuscaGulosa:
     
     def buscar(self, tabuleiro):
         
-        estado_atual = tabuleiro.estado_unico()
-        if estado_atual in self.visitados:
+        estado_atual = tabuleiro.estado_unico() # obtém o estado único do tabuleiro atual
+        if estado_atual in self.visitados: # se o tabuleiro já foi jogado, encerra a execução
             print("\nNÃO HÁ MAIS MOVIMENTOS ÚNICOS!")
             print("Encerrando execução...")
             time.sleep(1)
             return False
+        
         self.visitados.add(estado_atual)
 
         tabuleiro.movimento_realizado = True
         print("* ESTADO ATUAL DO TABULEIRO *\n")
         tabuleiro.exibir_tabuleiro()
 
+        # verifica se o tabuleiro atual é o tabuleiro objetivo
         if tabuleiro.verificar_objetivo():
             print("Tabuleiro objetivo encontrado!")
             self.exibir_jogadas()
