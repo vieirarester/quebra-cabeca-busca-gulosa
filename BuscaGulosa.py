@@ -1,3 +1,4 @@
+import time
 from Tabuleiro import Tabuleiro
 
 class BuscaGulosa:
@@ -21,7 +22,7 @@ class BuscaGulosa:
       
         if melhor_tabuleiro:
             melhor_tabuleiro.movimento_realizado = True
-            print("------------------------------")
+            print("-----------------------------------")
             print("A melhor opção é:")
             melhor_tabuleiro.exibir_tabuleiro()
 
@@ -41,6 +42,9 @@ class BuscaGulosa:
         
         estado_atual = tabuleiro.estado_unico()
         if estado_atual in self.visitados:
+            print("\nNÃO HÁ MAIS MOVIMENTOS ÚNICOS!")
+            print("Encerrando execução...")
+            time.sleep(3)
             return
         self.visitados.add(estado_atual)
 
@@ -56,7 +60,7 @@ class BuscaGulosa:
         print("\nOs tabuleiros possíveis são: \n")
         tabuleiro.imprimir_movimentos_possiveis()
         melhor_tabuleiro = self.escolher_melhor_movimento(tabuleiro)
-        print('------------------------------')
+        print('-----------------------------------')
         
         if melhor_tabuleiro:
             self.buscar(melhor_tabuleiro)
