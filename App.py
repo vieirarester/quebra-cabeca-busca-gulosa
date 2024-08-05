@@ -18,7 +18,7 @@ class App:
             if resultado:
                 break
             else:
-                print("Gerando novo tabuleiro aleatório...")
+                print("\nGerando novo tabuleiro aleatório...")
                 self.tabuleiro = Tabuleiro()
                 self.busca = BuscaGulosa()
                 time.sleep(2)  # delay de 2 segundos antes de executar a busca novamente       

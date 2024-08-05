@@ -48,7 +48,7 @@ class BuscaGulosa:
         self.visitados.add(estado_atual)
 
         tabuleiro.movimento_realizado = True
-        print("* ESTADO ATUAL DO TABULEIRO *\n")
+        print("** ESTADO ATUAL DO TABULEIRO **\n")
         tabuleiro.exibir_tabuleiro()
 
         # verifica se o tabuleiro atual é o tabuleiro objetivo
