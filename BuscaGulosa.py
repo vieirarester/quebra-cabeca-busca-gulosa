@@ -44,8 +44,8 @@ class BuscaGulosa:
         if estado_atual in self.visitados:
             print("\nNÃO HÁ MAIS MOVIMENTOS ÚNICOS!")
             print("Encerrando execução...")
-            time.sleep(3)
-            return
+            time.sleep(1)
+            return False
         self.visitados.add(estado_atual)
 
         tabuleiro.movimento_realizado = True
@@ -55,7 +55,7 @@ class BuscaGulosa:
         if tabuleiro.verificar_objetivo():
             print("Tabuleiro objetivo encontrado!")
             self.exibir_jogadas()
-            return
+            return True
         
         print("\nOs tabuleiros possíveis são: \n")
         tabuleiro.imprimir_movimentos_possiveis()
@@ -63,12 +63,7 @@ class BuscaGulosa:
         print('-----------------------------------')
         
         if melhor_tabuleiro:
-            self.buscar(melhor_tabuleiro)
+            return self.buscar(melhor_tabuleiro)
         else:
             print("Não foi possível resolver o tabuleiro.")
-
-
-tabuleiro = Tabuleiro()
-busca = BuscaGulosa()
-
-busca.buscar(tabuleiro)
+            return False
