@@ -1,59 +1,68 @@
-import heapq
+from Tabuleiro import Tabuleiro
 
 class BuscaGulosa:
-    def __init__(self, tabuleiro, heuristica):
-        self.tabuleiro_inicial = tabuleiro
-        self.heuristica = heuristica
 
-    def buscar(self):
-        tabuleiro_atual = self.tabuleiro_inicial
-        custo_atual = self.heuristica.distancia_manhattan(tabuleiro_atual)
-        print(f"CUSTO: {custo_atual}")
+    def __init__(self):
+        self.visitados = set()
 
-        fila_prioridade = []
-        caminho = []
-        visitados = set()
+    def escolher_melhor_movimento(self, tabuleiro):
+        if not tabuleiro.movimentos_possiveis:
+            return 
+        
+        melhor_tabuleiro = tabuleiro.movimentos_possiveis[0]
+        menor_custo = float('inf')
 
-        heapq.heappush(fila_prioridade, (custo_atual, tabuleiro_atual, caminho))
+        for tabuleiro_possivel in tabuleiro.movimentos_possiveis:
+            if tabuleiro_possivel.estado_unico() not in self.visitados:
+                custo = tabuleiro_possivel.get_custo()
+                if custo < menor_custo:
+                    menor_custo = custo
+                    melhor_tabuleiro = tabuleiro_possivel
+      
+        if melhor_tabuleiro:
+            melhor_tabuleiro.movimento_realizado = True
+            print("A melhor opção é:")
+            melhor_tabuleiro.exibir_tabuleiro()
 
-        while fila_prioridade:
-            # Imprime a fila de prioridade
-            # print("Fila de prioridade:")
-            # for item in fila_prioridade:
-                #print(item)
+        return melhor_tabuleiro
+    
+    def exibir_jogadas(self):
+        print(f"TOTAL DE JOGADAS = {len(self.visitados)-1}")
+        print("\nJOGADAS REALIZADAS:")
+        for tab in self.visitados:
+            tab.exibir_tabuleiro()
+    
+    
+    def buscar(self, tabuleiro):
+        
+        estado_atual = tabuleiro.estado_unico()
+        if estado_atual in self.visitados:
+            return
+        self.visitados.add(estado_atual)
 
-            print(f"O tamanho da fila_prioridade é: {len(fila_prioridade)}")
+        tabuleiro.movimento_realizado = True
+        print("Estado atual do tabuleiro:")
+        tabuleiro.exibir_tabuleiro()
 
-            custo_atual, tabuleiro_atual, caminho = heapq.heappop(fila_prioridade)
+        if tabuleiro.verificar_objetivo():
+            print("Tabuleiro objetivo encontrado!")
+            self.exibir_jogadas()
+            return
+        
+        print("Os tabuleiros possíveis são: ")
+        tabuleiro.imprimir_movimentos_possiveis()
+        melhor_tabuleiro = self.escolher_melhor_movimento(tabuleiro)
+        print('--------------------------')
+        
+        if melhor_tabuleiro:
+            self.buscar(melhor_tabuleiro)
+        else:
+            print("Não foi possível resolver o tabuleiro.")
 
-            if tabuleiro_atual.verificar_objetivo():
-                print("Tabuleiro resolvido!")
 
-                for tabuleiro, movimento in caminho:
-                    tabuleiro.exibir_tabuleiro()
-                return caminho
 
-            if str(tabuleiro_atual.tab) in visitados: continue
 
-            visitados.add(str(tabuleiro_atual.tab))
+tabuleiro = Tabuleiro()
+busca = BuscaGulosa()
 
-            movimentos_possiveis = tabuleiro_atual.verificar_movimentos_possiveis()
-
-            for movimento in movimentos_possiveis:             
-                tabuleiro_possivel = tabuleiro_atual.mover(movimento)
-                
-                if tabuleiro_possivel:
-                    custo = self.heuristica.distancia_manhattan(tabuleiro_possivel)
-                    caminho_atualizado = caminho + [(tabuleiro_possivel, movimento)]
-                    
-                    # Adiciona o novo estado à fila de prioridade
-                    heapq.heappush(fila_prioridade, (custo, tabuleiro_possivel, caminho_atualizado))
-            
-            # Imprime o movimento e o novo estado do tabuleiro apenas para o estado escolhido
-            print(f"\nMovimento realizado: {caminho[-1][1] if caminho else 'Início'}")
-            print("Estado atual do tabuleiro:")
-            tabuleiro_atual.exibir_tabuleiro()
-            print(f"Custo do estado: {custo}")
-
-        print("Não foi possível resolver o tabuleiro.")
-        return None
+busca.buscar(tabuleiro)
