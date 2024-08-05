@@ -11,20 +11,23 @@ class Tabuleiro:
         self.movimentos_possiveis = []
         self.heuristica = Heuristica()
 
+    # garantindo que o estado do tabuleiro é único
     def estado_unico(self):
         return tuple(tuple(linha) for linha in self.tab)
 
     def gerar_tabuleiro_aleatorio(self):
         tab = list(range(1,9)) + [" "]
-        random.shuffle(tab)
+        random.shuffle(tab) # embaralha a lista de (0,9) + " "
 
-        return [tab[i:i + 3] for i in range(0, 9, 3)]
+        return [tab[i:i + 3] for i in range(0, 9, 3)] # matriz 3x3
     
     def get_custo(self):
+        # calcula custo do tabuleiro usando a heurística
         self.custo = self.heuristica.distancia_manhattan(self)
 
         return self.custo
-
+    
+    # imprime tabuleiro + custo respondente
     def exibir_tabuleiro(self):
         for linha in self.tab:
             print(" ".join(str(n) for n in linha))
@@ -65,9 +68,8 @@ class Tabuleiro:
                 novo_tab[linha_peca][coluna_peca], novo_tab[linha_vazio][coluna_vazio]
         
         return Tabuleiro(novo_tab)  # retorna um novo estado do tabuleiro
-
-        return None
     
+    # adiciona os tabuleiros possíveis a partir de um tabuleiro inicial dentro da sua lista de movimentos
     def add_movimentos_possiveis(self):
 
         self.movimentos_possiveis = []
@@ -79,7 +81,6 @@ class Tabuleiro:
                 
 
     def imprimir_movimentos_possiveis(self):
-
         self.add_movimentos_possiveis()
         for tabuleiro in self.movimentos_possiveis:
             tabuleiro.exibir_tabuleiro()

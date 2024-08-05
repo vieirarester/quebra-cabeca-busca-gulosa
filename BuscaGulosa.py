@@ -40,6 +40,7 @@ class BuscaGulosa:
         estado_atual = tabuleiro.estado_unico() # obtém o estado único do tabuleiro atual
         if estado_atual in self.visitados: # se o tabuleiro já foi jogado, encerra a execução
             print("\nNÃO HÁ MAIS MOVIMENTOS ÚNICOS!")
+            print(f"TOTAL JOGADAS = {len(self.visitados)-1}")
             print("Encerrando execução...")
             time.sleep(1)
             return False
@@ -52,7 +53,8 @@ class BuscaGulosa:
 
         # verifica se o tabuleiro atual é o tabuleiro objetivo
         if tabuleiro.verificar_objetivo():
-            print("Tabuleiro objetivo encontrado!")
+            print("* VOCÊ ENCONTROU SEU OBJETIVO *")
+            print(f"TOTAL JOGADAS = {len(self.visitados)-1}\n")
             return True
         
         print("\nOs tabuleiros possíveis são: \n")
