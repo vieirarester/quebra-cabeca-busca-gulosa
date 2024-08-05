@@ -29,8 +29,7 @@ class Tabuleiro:
         for linha in self.tab:
             print(" ".join(str(n) for n in linha))
         
-        print(f"\nCUSTO = {self.get_custo()}")
-        print()
+        print(f"CUSTO = {self.get_custo()}\n")
 
     def verificar_objetivo(self):
         tabuleiro_objetivo = [[1, 2, 3], [4, 5, 6], [7, 8, " "]]

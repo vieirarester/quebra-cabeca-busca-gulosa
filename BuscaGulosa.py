@@ -21,17 +21,21 @@ class BuscaGulosa:
       
         if melhor_tabuleiro:
             melhor_tabuleiro.movimento_realizado = True
+            print("------------------------------")
             print("A melhor opção é:")
             melhor_tabuleiro.exibir_tabuleiro()
 
         return melhor_tabuleiro
     
     def exibir_jogadas(self):
-        print(f"TOTAL DE JOGADAS = {len(self.visitados)-1}")
+        print(f"TOTAL DE JOGADAS = {len(self.visitados) - 1}")
         print("\nJOGADAS REALIZADAS:")
-        for tab in self.visitados:
-            tab.exibir_tabuleiro()
     
+        for tabuleiro_visitado in self.visitados:
+            tab = [list(tabuleiro_visitado[i:i + 3]) for i in range(0, 9, 3)]
+
+            for linha in tab:
+                print(" ".join(str(n) for n in linha))            
     
     def buscar(self, tabuleiro):
         
@@ -41,7 +45,7 @@ class BuscaGulosa:
         self.visitados.add(estado_atual)
 
         tabuleiro.movimento_realizado = True
-        print("Estado atual do tabuleiro:")
+        print("* ESTADO ATUAL DO TABULEIRO *\n")
         tabuleiro.exibir_tabuleiro()
 
         if tabuleiro.verificar_objetivo():
@@ -49,17 +53,15 @@ class BuscaGulosa:
             self.exibir_jogadas()
             return
         
-        print("Os tabuleiros possíveis são: ")
+        print("\nOs tabuleiros possíveis são: \n")
         tabuleiro.imprimir_movimentos_possiveis()
         melhor_tabuleiro = self.escolher_melhor_movimento(tabuleiro)
-        print('--------------------------')
+        print('------------------------------')
         
         if melhor_tabuleiro:
             self.buscar(melhor_tabuleiro)
         else:
             print("Não foi possível resolver o tabuleiro.")
-
-
 
 
 tabuleiro = Tabuleiro()

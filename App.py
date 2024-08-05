@@ -1,4 +1,4 @@
-from Tabuleirov1 import Tabuleiro
+from Tabuleiro import Tabuleiro
 from BuscaGulosa import BuscaGulosa
 
 class App:
