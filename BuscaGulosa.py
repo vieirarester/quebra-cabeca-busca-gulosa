@@ -33,16 +33,7 @@ class BuscaGulosa:
             melhor_tabuleiro.exibir_tabuleiro()
 
         return melhor_tabuleiro
-    
-    def exibir_jogadas(self):
-        print(f"TOTAL DE JOGADAS = {len(self.visitados) - 1}")
-        print("\nJOGADAS REALIZADAS:")
-    
-        for tabuleiro_visitado in self.visitados:
-            tab = [list(tabuleiro_visitado[i:i + 3]) for i in range(0, 9, 3)]
-
-            for linha in tab:
-                print(" ".join(str(n) for n in linha))            
+                
     
     def buscar(self, tabuleiro):
         
@@ -62,7 +53,6 @@ class BuscaGulosa:
         # verifica se o tabuleiro atual é o tabuleiro objetivo
         if tabuleiro.verificar_objetivo():
             print("Tabuleiro objetivo encontrado!")
-            self.exibir_jogadas()
             return True
         
         print("\nOs tabuleiros possíveis são: \n")
